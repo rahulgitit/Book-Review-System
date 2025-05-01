@@ -1,0 +1,33 @@
+{% extends 'book/base.html' %}
+
+{% block title %}
+    Add the new book
+{% endblock title %}
+    
+
+
+{% block maincontent %} 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2">
+            <form action="" method="post" novalidate>
+                {% csrf_token %}
+                {{form.as_p}}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>  
+ 
+{% endblock maincontent %}

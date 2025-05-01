@@ -1,0 +1,26 @@
+{% extends 'book/base.html' %}
+
+{% block title %}
+Book List
+{% endblock title %}
+
+
+
+{% block maincontent %}
+
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{form.as_p}}
+    <div class="text-center">
+        <input type="submit" class="btn btn-success" value="Save">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</form>    
+{% endblock maincontent %}
+    

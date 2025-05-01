@@ -1,0 +1,43 @@
+{% extends 'book/base.html' %}
+
+{% block title %}
+Book List
+{% endblock title %}
+
+
+
+{% block maincontent %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="btn-group mb-2">
+        <a href="{% url 'list' %}" class="btn btn-outline-primary" {% if not request.GET.genre %}active{% endif %}>all</a>
+        <a href="?genre=fiction" class="btn btn-outline-primary"{% if request.GET.genre == 'fiction' %}active{% endif %}>Fiction</a>
+        <a href="?genre=non_fiction" class="btn btn-outline-primary" {% if request.GET.genre == 'non_fiction' %}active{% endif %}>Non_Fiction</a>
+        <a href="?genre=science" class="btn btn-outline-danger" {% if request.GET.genre == 'science' %}active{% endif %}>Science</a>
+        <a href="?genre=history" class="btn btn-outline-secondary" {% if request.GET.genre == 'history' %}active{% endif %}>history</a>
+      </div>
+    <div class="row">
+        {% for book in books %}
+        <div class="card m-1" style="width:16rem;" height="250px">
+            <div class="card-body">
+              <!-- <img src="" alt="no image"> -->
+              <h5 class="card-title ">Book Name:{{book.title}}</h5>
+              <h6 class="card-subtitle text-muted ">by:{{book.author}} </h6>
+              <p>{{book.description|truncatewords:30}}</p>
+
+            <a href="{% url 'detail' book.id %}" class="btn btn-success btn-sm">Details</a>
+            </div>
+          
+        </div>
+        {% endfor %}
+      </div>
+      
+
+
+    </div>
+
+
+</div>
+
+{% endblock maincontent %}

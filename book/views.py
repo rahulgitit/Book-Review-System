@@ -1,0 +1,68 @@
+from django.shortcuts import render,redirect
+from book.forms import BookForm
+from book.models import Book
+from django.contrib import messages
+from django.db.models import Q
+def base(request):
+    return render(request, 'book/base.html')
+
+
+def book_create(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Book created successfully')
+            return redirect('/book_list')
+
+    else:
+        form = BookForm()
+    return render(request, 'book/book_create.html',{'form':form})
+
+def book_list(request):
+    genre = request.GET.get('genre')
+    if genre:
+        books = Book.objects.filter(genre=genre).order_by('-created_at')
+    else:
+        books = Book.objects.all().order_by("created_at")
+    return render(request, 'book/book_list.html',{'books':books})
+
+
+def book_details(request,pk):
+    book = Book.objects.get(pk=pk)
+    return render(request, 'book/book_detail.html',{'book':book})
+
+def book_update(request,pk):
+    book = Book.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = BookForm(request.POST,instance=book)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Book updated successfully')
+            return redirect('/book_list')
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'book/book_update.html',{'form':form})
+
+def book_delete(request,pk):
+    book = Book.objects.get(pk=pk)
+    book.delete()
+    messages.success(request, 'Book deleted successfully')
+    return redirect('/book_list')
+
+
+
+def search(request):
+    object=request.GET['query']
+    # object=request.GET.get("query")
+
+    # print("hello")
+    # print(object)
+    # data=Book.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(author__icontains=query) | Q(category__icontains=query))
+    data=Book.objects.filter(title__icontains=object)
+    return render(request,"book/search.html",{"data":data})  
+
+
+
+
+

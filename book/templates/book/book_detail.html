@@ -1,0 +1,23 @@
+{% extends 'book/base.html' %}
+
+{% block title %}
+book details
+{% endblock title %}
+{% block maincontent %}
+    <div class="container">
+        <div class="text-center">
+            <h1>book details</h1>
+            <h2>Book Title: {{ book.title }}</h2>
+            <h3>Book Author: {{ book.author }}</h3>
+            <h4>Book genre : {{ book.genre }}</h4>
+            <h5>Publication date: {{book.publication_date}}</h5>
+            <h5>Book isbn:{{book.isbn}}</h5>
+            <p>{{book.description|truncatewords:30}}</p>
+            <a href="{% url 'update' book.pk %}" class="btn btn-success">Edit</a>
+            <a href="{% url 'delete' book.pk %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'list' %}" class="btn btn-info">Back to list</a>
+        </div>
+    </div>
+
+
+{% endblock maincontent %}
